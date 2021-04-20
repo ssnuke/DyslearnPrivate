@@ -11,4 +11,6 @@ const Practice = (props) => {
 
 export default Practice;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  
+});
