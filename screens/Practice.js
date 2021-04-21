@@ -7,7 +7,10 @@ import {
   TextInput,
   ScrollView,
   FlatList,
+  SafeAreaView,
 } from "react-native";
+import * as Speech from "expo-speech";
+import Card from "../components/Card";
 
 const Practice = (props) => {
   const [textInput, setTextInput] = useState("");
@@ -26,43 +29,52 @@ const Practice = (props) => {
     console.log(data);
   };
 
+  const speakWord = (value) => {
+    Speech.speak(value, { rate: 0.5 });
+  };
+
   return (
-    <View>
-      <Text>New Practice</Text>
+    <SafeAreaView style={styles.container}>
       <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="ADD A WORD"
-          onChangeText={changeText}
-          value={textInput}
+        <View style={styles.textInputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="ADD A WORD"
+            onChangeText={changeText}
+            value={textInput}
+          />
+          <Button style={styles.button} title="ADD" onPress={onAddTask} />
+        </View>
+
+        <FlatList
+          data={data}
+          style={styles.list}
+          renderItem={(itemData) => (
+            <Card
+              text={itemData.item.value}
+              onSelect={() => speakWord(itemData.item.value)}
+            />
+          )}
         />
-        <Button style={styles.button} title="ADD" onPress={onAddTask} />
       </View>
-      {/* <ScrollView>
-        {data.map((item) => (
-          <View key={item} style={styles.listItem}>
-            <Text>{item}</Text>
-          </View>
-        ))}
-      </ScrollView> */}
-      <FlatList
-        data={data}
-        renderItem={itemData => (
-          <View style={styles.listItem}>
-            <Text>{itemData.item.value}</Text>
-          </View>
-        )}
-      />
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default Practice;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   inputContainer: {
-    flexDirection: "row",
+    flex: 1,
+    padding: 15,
     width: "100%",
+  },
+  textInputContainer:{
+    flexDirection:'row',
+    justifyContent:'space-evenly',
   },
   input: {
     borderWidth: 1,
@@ -72,11 +84,7 @@ const styles = StyleSheet.create({
   button: {
     width: "30%",
   },
-  listItem: {
-    padding: 10,
-    marginVertical: 10,
-    backgroundColor: "#ccc",
-    borderColor: "black",
-    borderWidth: 1,
-  },
+  list:{
+    marginTop:20,
+  }
 });
