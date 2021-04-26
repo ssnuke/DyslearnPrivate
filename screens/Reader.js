@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button,Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
 const Reader = (props) => {
@@ -74,14 +74,24 @@ const Reader = (props) => {
   }
 
   return (
-    <View>
-      {image && <Image style={styles.image} source={{ uri: image }} />}
-      {status && <Text style={styles.text}>{status}</Text>}
-      <Button onPress={askPermissionsAsync} title="Ask permissions" />
+    <View style={styles.container}>
+      {permissions === false ? (
+        <Button onPress={askPermissionsAsync} title="Ask permissions" />
+      ) : (
+        <>
+          {image && <Image style={styles.image} source={{ uri: image }} />}
+          {status && <Text style={styles.text}>{status}</Text>}
+          <Button onPress={takePictureAsync} title="Take a Picture" />
+        </>
+      )}
     </View>
   );
 };
 
 export default Reader;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container:{
+
+  }
+});

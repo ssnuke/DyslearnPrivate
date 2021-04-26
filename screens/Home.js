@@ -15,10 +15,10 @@ const Home = ({ navigation }) => {
         </Button>
         <Button
           mode="contained"
-          onPress={() => navigation.navigate("Practice")}
+          onPress={() => navigation.navigate("Reader")}
           style={styles.button}
         >
-          Practice
+          Reader
         </Button>
         <Button
           mode="contained"
