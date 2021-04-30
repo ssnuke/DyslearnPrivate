@@ -1,8 +1,20 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  BackHandler,
+} from "react-native";
 import { Button } from "react-native-paper";
 
 const Home = ({ navigation }) => {
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", function () {
+      return true;
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
       <View styles={styles.buttonContainer}>
@@ -34,17 +46,17 @@ const Home = ({ navigation }) => {
         >
           Practice
         </Button>
-        <View style={styles.loginContainer}>
-          <Button style={styles.login} color="white">
+        {/* <View style={styles.loginContainer}>
+          <Button style={styles.login} color="white" onPress={() => navigation.navigate("SignUp")}>
             Login
           </Button>
           <Button style={styles.logout} color="white">
             Logout
           </Button>
-        </View>
-        <View style={styles.exitContainer}>
+        </View> */}
+        {/* <View style={styles.exitContainer}>
           <Button style={styles.exitButton} color="white">EXIT</Button>
-        </View>
+        </View> */}
       </View>
     </View>
   );
@@ -76,10 +88,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#ed6868",
   },
   exitContainer: {
-    marginTop:50,
-    backgroundColor:'#ff0a0a',
-    marginHorizontal:120,
+    marginTop: 50,
+    backgroundColor: "#ff0a0a",
+    marginHorizontal: 120,
   },
-  exitButton:{
-  },
+  exitButton: {},
 });

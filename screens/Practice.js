@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   Button,
   TextInput,
-  ScrollView,
   FlatList,
   SafeAreaView,
 } from "react-native";
@@ -72,9 +70,9 @@ const styles = StyleSheet.create({
     padding: 15,
     width: "100%",
   },
-  textInputContainer:{
-    flexDirection:'row',
-    justifyContent:'space-evenly',
+  textInputContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
   },
   input: {
     borderWidth: 1,
@@ -84,7 +82,7 @@ const styles = StyleSheet.create({
   button: {
     width: "30%",
   },
-  list:{
-    marginTop:20,
-  }
+  list: {
+    marginTop: 20,
+  },
 });
