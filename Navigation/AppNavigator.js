@@ -5,6 +5,7 @@ import Home from '../screens/Home';
 import Practice from "../screens/Practice";
 import Reader from '../screens/Reader';
 import SigningScreen from '../screens/SigningScreen';
+import CompleteSentence from '../screens/CompleteSentence';
 
 const AppNavigator = (props) => {
   const Stack = createStackNavigator();
@@ -15,6 +16,7 @@ const AppNavigator = (props) => {
       <Stack.Screen name='Home' component={Home}  options={{headerLeft: () => null}}/>
       <Stack.Screen name='Practice' component={Practice} />
       <Stack.Screen name='Reader' component={Reader} />
+      <Stack.Screen name='CompleteSentence' component={CompleteSentence} />
     </Stack.Navigator>
   );
 };

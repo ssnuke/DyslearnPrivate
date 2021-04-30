@@ -41,10 +41,10 @@ const Home = ({ navigation }) => {
         </Button>
         <Button
           mode="contained"
-          onPress={() => navigation.navigate("Practice")}
+          onPress={() => navigation.navigate("CompleteSentence")}
           style={styles.button}
         >
-          Practice
+          CompleteSentence
         </Button>
         {/* <View style={styles.loginContainer}>
           <Button style={styles.login} color="white" onPress={() => navigation.navigate("SignUp")}>
