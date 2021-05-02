@@ -10,6 +10,14 @@ const SignIn = (props) => {
 
   const emailRegex = /\S+@\S+\.\S+/;
 
+
+  //Listen for auth changes
+
+  firebase.auth.onAuthStateChanged(user => {
+    
+  })
+
+
   const validate = () => {
     if(emailRegex.test(email)){
       setIsValid(true);

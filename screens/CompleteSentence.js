@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import {
   View,
@@ -44,3 +45,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+=======
+import React, { useState, useCallback } from "react";
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import DraggableFlatList, {
+  RenderItemParams,
+} from "react-native-draggable-flatlist";
+
+const CompleteSentence = (props) => {};
+
+export default CompleteSentence;
+
+const styles = StyleSheet.create({});
+>>>>>>> 3053ce425e6b5e103ad1a7b1978fdf4bd7527559

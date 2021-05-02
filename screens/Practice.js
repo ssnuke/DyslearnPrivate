@@ -7,12 +7,19 @@ import {
   FlatList,
   SafeAreaView,
 } from "react-native";
+import firebase from '../firebase/firebase';
 import * as Speech from "expo-speech";
 import Card from "../components/Card";
 
 const Practice = (props) => {
   const [textInput, setTextInput] = useState("");
   const [data, setNewData] = useState([]);
+  const auth = firebase.atuh();
+  const db = firebase.firestore();
+
+  db.collection('cards').get().then(snapshot => {
+    console.log(snapshot.docs);
+  })
 
   const changeText = (input) => {
     setTextInput(input);
