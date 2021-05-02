@@ -1,60 +1,30 @@
-<<<<<<< HEAD
-import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Button,
-  TextInput,
-  FlatList,
-  SafeAreaView,
-} from "react-native";
-import * as Speech from "expo-speech";
-const word = "I am a girl ";
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+
+import Word from "../components/Word";
+import { TEST_DATA } from "../data/sentence";
+
 const CompleteSentence = (props) => {
-  const [textInput, setTextInput] = useState("");
-  const speakWord = (value) => {
-    Speech.speak(value, { rate: 0.5 });
+  const newWord = (itemData) => { 
+    var res = itemData.jumbled.split(" ");
+    return (
+      res.map(items => <Word text={items}/>)
+    );
   };
-  const changeText = (input) => {
-    setTextInput(input);
-  };
-  const checkWord = (input) => {
-    if (input == word) {
-      console.log("correct");
-    } else {
-      console.log("wrong");
-    }
-  };
+
   return (
     <View style={styles.container}>
-      <Button title="speak" onPress={() => speakWord(word)} />
-      <TextInput
-        style={styles.input}
-        placeholder="ADD A WORD"
-        onChangeText={changeText}
-        value={textInput}
-      />
-      {/* <Button title="SUBMIT" onPress={() => checkWord(input)} /> */}
+      {TEST_DATA.map((itemData) => newWord(itemData))}
     </View>
   );
 };
+
 export default CompleteSentence;
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: "row",
     flex: 1,
+    margin: 10,
   },
 });
-=======
-import React, { useState, useCallback } from "react";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
-import DraggableFlatList, {
-  RenderItemParams,
-} from "react-native-draggable-flatlist";
-
-const CompleteSentence = (props) => {};
-
-export default CompleteSentence;
-
-const styles = StyleSheet.create({});
->>>>>>> 3053ce425e6b5e103ad1a7b1978fdf4bd7527559
