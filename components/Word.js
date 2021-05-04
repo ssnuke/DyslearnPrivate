@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 const Word = (props) => {
-    const { text } = props;
+  const { text, onWordSelect } = props;
+  const [value, setValue] = useState(text);
+
+  const onSelect = () => {
+    const sentence = value;
+    onWordSelect(sentence);
+  };
+
   return (
-    <TouchableOpacity style={styles.wordContainer}>
-      <View >
+    <TouchableOpacity style={styles.wordContainer} onPress={onSelect}>
+      <View>
         <Text style={styles.text}>{text}</Text>
       </View>
     </TouchableOpacity>
