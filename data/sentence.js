@@ -7,7 +7,7 @@ export const TEST_DATA = [
   },
   {
     id:'2',
-    totalWords: 4,
+    totalWords: 2,
     jumbled:'World Hello',
     correct: 'Hello World',
   },

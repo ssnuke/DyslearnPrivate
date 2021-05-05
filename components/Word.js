@@ -4,9 +4,11 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 const Word = (props) => {
   const { text, onWordSelect } = props;
   const [value, setValue] = useState(text);
+  const sentence = [];
 
   const onSelect = () => {
-    const sentence = value;
+    sentence.push(value);
+    console.log(sentence);
     onWordSelect(sentence);
   };
 

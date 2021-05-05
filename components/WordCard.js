@@ -15,7 +15,7 @@ const WordCard = (props) => {
 
   const updateInput = (value) => {
     let newTexts = [...textInput];
-    newTexts.push(" " + value);
+    newTexts.push(value);
     setTextInput(newTexts);
   };
 
@@ -26,7 +26,12 @@ const WordCard = (props) => {
   };
 
   let Icon = (
-    <Ionicons name="checkmark-done-circle-outline" size={24} color="black" />
+    <Ionicons
+      name="checkmark-done-circle-outline"
+      size={24}
+      color="black"
+     
+    />
   );
   if (submitted) {
     Icon = (
@@ -35,11 +40,21 @@ const WordCard = (props) => {
   }
 
   const checkAnswer = () => {
-    console.log(textInput.values);
-    const result = JSON.stringify(answer) === JSON.stringify(textInput)
+    console.log(answer[0]);
+    console.log(textInput[0]);
+    //const result=0;
+    //for(let i=0;i<box;i++){
+      if(answer[0]===textInput[0]){
+        console.log(t)
+      }
+      else{
+        console.log(true);
+      }
+    //}
+    //const result = JSON.stringify(answer) === JSON.stringify(textInput);
     //  const right = answer.map() == textInput.map()
-    // console.log(result);
-    // setSubmitted(true);
+   
+    setSubmitted(true);
   };
 
   return (
