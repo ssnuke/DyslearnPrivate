@@ -15,6 +15,6 @@ export const TEST_DATA = [
     id:'3',
     totalWords: 4,
     jumbled:'is snehith name my',
-    correct: 'My name is snehith',
+    correct: 'my name is snehith',
   },
 ];

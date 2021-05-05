@@ -2,18 +2,25 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 const Word = (props) => {
-  const { text, onWordSelect } = props;
+  const { text, onWordSelect, updateButton } = props;
   const [value, setValue] = useState(text);
-  const sentence = [];
+  const [disableInput, setDisableInput] = useState(false);
 
   const onSelect = () => {
-    sentence.push(value);
-    console.log(sentence);
-    onWordSelect(sentence);
+    onWordSelect(value);
+    if (updateButton == false) {
+      setDisableInput(false);
+    } else {
+      setDisableInput(true);
+    }
   };
 
   return (
-    <TouchableOpacity style={styles.wordContainer} onPress={onSelect}>
+    <TouchableOpacity
+      style={styles.wordContainer}
+      onPress={onSelect}
+      disabled={disableInput}
+    >
       <View>
         <Text style={styles.text}>{text}</Text>
       </View>

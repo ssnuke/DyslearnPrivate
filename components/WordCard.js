@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Feather, Ionicons, Entypo } from "@expo/vector-icons";
 
 import Word from "./Word";
@@ -7,53 +7,70 @@ import Word from "./Word";
 const WordCard = (props) => {
   const { itemData } = props;
   const [textInput, setTextInput] = useState([]);
+  const [myAnswer, setMyAnswer] = useState([]);
   const [submitted, setSubmitted] = useState(false);
+  const [rightAnswer, setRightAnswer] = useState(false);
+  const [disableButton, setDisableButton] = useState(false);
 
   var res = itemData.jumbled.split(" ");
-  var answer = itemData.correct.split(" ");
-  let box = answer.length;
+  var correctAnswer = itemData.correct.split(" ");
+  let sentence = [];
 
+  //Updating the input
   const updateInput = (value) => {
     let newTexts = [...textInput];
-    newTexts.push(value);
+    sentence = [...myAnswer];
+    sentence.push(value);
+    newTexts.push(" " + value);
+    setMyAnswer(sentence);
     setTextInput(newTexts);
   };
 
+  //Deleting Element
   const popElement = () => {
     let newTexts = [...textInput];
+    sentence = [...myAnswer];
+    sentence.pop();
     newTexts.pop();
     setTextInput(newTexts);
+    setMyAnswer(sentence);
   };
 
+  //Updating Icon for right and wrong answer
   let Icon = (
-    <Ionicons
-      name="checkmark-done-circle-outline"
-      size={24}
-      color="black"
-     
-    />
+    <Ionicons name="checkmark-done-circle-outline" size={24} color="black" />
   );
+
   if (submitted) {
-    Icon = (
-      <Ionicons name="checkmark-done-circle-sharp" size={24} color="green" />
-    );
+    if (rightAnswer) {
+      Icon = (
+        <Ionicons name="checkmark-done-circle-sharp" size={24} color="green" />
+      );
+    } else if (!rightAnswer) {
+      Icon = <Entypo name="circle-with-cross" size={24} color="red" />;
+    } else {
+      Icon = (
+        <Ionicons
+          name="checkmark-done-circle-outline"
+          size={24}
+          color="black"
+        />
+      );
+    }
   }
 
+  //Checking Answer
   const checkAnswer = () => {
-    console.log(answer[0]);
-    console.log(textInput[0]);
-    //const result=0;
-    //for(let i=0;i<box;i++){
-      if(answer[0]===textInput[0]){
-        console.log(t)
-      }
-      else{
-        console.log(true);
-      }
-    //}
-    //const result = JSON.stringify(answer) === JSON.stringify(textInput);
-    //  const right = answer.map() == textInput.map()
-   
+    if (myAnswer.length === 0) {
+      Alert.alert("Empty Input");
+      setSubmitted(false);
+      return
+    }
+    if (JSON.stringify(correctAnswer) == JSON.stringify(myAnswer)) {
+      setRightAnswer(true);
+    } else {
+      setRightAnswer(false);
+    }
     setSubmitted(true);
   };
 
@@ -61,15 +78,13 @@ const WordCard = (props) => {
     <View style={styles.container}>
       <View style={styles.wordContainer}>
         {res.map((items) => (
-          <Word text={items} onWordSelect={updateInput} />
+          <Word text={items} onWordSelect={updateInput} onWordPopped={popElement} updateButton={() => {}}/>
         ))}
       </View>
       <View style={styles.answerContainer}>
         <Text style={styles.answer}>{textInput}</Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={checkAnswer}>{Icon}</TouchableOpacity>
-
-          <Entypo name="circle-with-cross" size={24} color="red" />
 
           <TouchableOpacity onPress={popElement}>
             <Feather name="delete" size={24} color="blue" />
