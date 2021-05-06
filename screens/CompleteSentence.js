@@ -11,6 +11,7 @@ const CompleteSentence = (props) => {
         <FlatList
           data={TEST_DATA}
           renderItem={(itemData) => <WordCard itemData={itemData.item} />}
+          // horizontal={true}
         />
       </View>
     </View>

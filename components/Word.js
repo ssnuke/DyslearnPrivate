@@ -8,19 +8,10 @@ const Word = (props) => {
 
   const onSelect = () => {
     onWordSelect(value);
-    if (updateButton == false) {
-      setDisableInput(false);
-    } else {
-      setDisableInput(true);
-    }
   };
 
   return (
-    <TouchableOpacity
-      style={styles.wordContainer}
-      onPress={onSelect}
-      disabled={disableInput}
-    >
+    <TouchableOpacity style={styles.wordContainer} onPress={onSelect}>
       <View>
         <Text style={styles.text}>{text}</Text>
       </View>

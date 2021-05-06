@@ -10,7 +10,7 @@ const WordCard = (props) => {
   const [myAnswer, setMyAnswer] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [rightAnswer, setRightAnswer] = useState(false);
-  const [disableButton, setDisableButton] = useState(false);
+  const [disable,setDisable] = useState(false);
 
   var res = itemData.jumbled.split(" ");
   var correctAnswer = itemData.correct.split(" ");
@@ -24,6 +24,7 @@ const WordCard = (props) => {
     newTexts.push(" " + value);
     setMyAnswer(sentence);
     setTextInput(newTexts);
+    setDisable(true);
   };
 
   //Deleting Element
@@ -34,6 +35,7 @@ const WordCard = (props) => {
     newTexts.pop();
     setTextInput(newTexts);
     setMyAnswer(sentence);
+    setDisable(false);
   };
 
   //Updating Icon for right and wrong answer
@@ -64,7 +66,7 @@ const WordCard = (props) => {
     if (myAnswer.length === 0) {
       Alert.alert("Empty Input");
       setSubmitted(false);
-      return
+      return;
     }
     if (JSON.stringify(correctAnswer) == JSON.stringify(myAnswer)) {
       setRightAnswer(true);
@@ -74,17 +76,33 @@ const WordCard = (props) => {
     setSubmitted(true);
   };
 
+  //Rest Answer
+
+  const resetAnswer = () => {
+    setTextInput([]);
+    setMyAnswer([]);
+    setSubmitted(false);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.wordContainer}>
-        {res.map((items) => (
-          <Word text={items} onWordSelect={updateInput} onWordPopped={popElement} updateButton={() => {}}/>
+        {res.map((items,index) => (
+          <Word
+            text={items}
+            onWordSelect={updateInput}
+            updateButton={popElement}
+            key={index}
+          />
         ))}
       </View>
       <View style={styles.answerContainer}>
         <Text style={styles.answer}>{textInput}</Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={checkAnswer}>{Icon}</TouchableOpacity>
+          <TouchableOpacity onPress={resetAnswer}>
+            <Ionicons name="refresh-circle-sharp" size={24} color="white" />
+          </TouchableOpacity>
 
           <TouchableOpacity onPress={popElement}>
             <Feather name="delete" size={24} color="blue" />
