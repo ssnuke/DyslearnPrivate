@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-dyslearn-dev-193545-authRole",
+      "UnauthRoleArn": "arn:aws:iam::113266185427:role/amplify-dyslearn-dev-193545-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::113266185427:role/amplify-dyslearn-dev-193545-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-dyslearn-dev-193545-deployment",
+      "UnauthRoleName": "amplify-dyslearn-dev-193545-unauthRole",
+      "StackName": "amplify-dyslearn-dev-193545",
+      "StackId": "arn:aws:cloudformation:us-east-1:113266185427:stack/amplify-dyslearn-dev-193545/29fa7010-ae74-11eb-8db3-0a92cd60f899",
+      "AmplifyAppId": "dk7zd8lcuuxvm"
+    }
+  }
+}
