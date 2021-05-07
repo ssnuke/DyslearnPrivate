@@ -1,1 +1,10 @@
-{}
+{
+  "auth": {
+    "dyslearne3a99899": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

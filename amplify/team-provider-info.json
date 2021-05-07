@@ -10,6 +10,11 @@
       "StackName": "amplify-dyslearn-dev-193545",
       "StackId": "arn:aws:cloudformation:us-east-1:113266185427:stack/amplify-dyslearn-dev-193545/29fa7010-ae74-11eb-8db3-0a92cd60f899",
       "AmplifyAppId": "dk7zd8lcuuxvm"
+    },
+    "categories": {
+      "auth": {
+        "dyslearne3a99899": {}
+      }
     }
   }
 }
