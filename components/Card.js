@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,11 +9,21 @@ import {
 } from "react-native";
 
 import * as ImagePicker from "expo-image-picker";
+import { API, graphqlOperation, Storage } from "aws-amplify";
+import { createTodo, updateTodo, deleteTodo } from "../src/graphql/mutations";
+import * as queries from "../src/graphql/queries";
 
 const Card = (props) => {
-  const { text, onSelect } = props;
+  const { text, onSelect, onDelete, onImageAdd } = props;
   const [selectedImage, setSelectedImage] = useState(null);
-  const [img, setImg] = useState(false);
+  const [cloudImage, setCloudImage] = useState("");
+  const [imageName,setImageName] = useState('');
+  
+
+  useEffect(() => {
+    // getImage();
+    // console.log(cloudImage);
+  });
 
   let openImagePickerAsync = async () => {
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -29,21 +39,36 @@ const Card = (props) => {
       return;
     }
     setSelectedImage(pickerResult.uri);
-
-    if (selectedImage !== null) {
-      setImg(true);
-    }else{
-        setImg(false);
-    }
+    
+    const imageUri = pickerResult.uri;
+    const response = await fetch(imageUri);
+    let myname = pickerResult.uri.replace(/^.*[\\\/]/, "");
+    const blob = await response.blob();
+    await Storage.put(myname, blob, {
+      contentType: "image/jpeg",
+    });
+    onImageAdd(myname,text);
   };
+
+  // const getImage = async () => {
+  //   setCloudImage(
+  //     await Storage.get(imageName, {
+  //       contentType: "image/jpeg",
+  //     })
+  //   );
+  // };
 
   return (
     <View style={styles.listItemContainer}>
       <View style={styles.itemContainer}>
         <Text style={styles.textContainer}>{text.toUpperCase()}</Text>
-        {img ? (
-          <Image source={{ uri: selectedImage }} style={styles.image} />
-        ) : null}
+        <View>
+          <Button title="Delete" onPress={onDelete} />
+        </View>
+
+        {/* <Image  source={{uri: cloudImage}} style={styles.image}/> */}
+        <Image source={{ uri: selectedImage }} style={styles.image} />
+
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.readButton}
@@ -87,12 +112,10 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginHorizontal:5,
+    marginHorizontal: 5,
     marginBottom: 10,
   },
-  imageButton: {
-    
-  },
+  imageButton: {},
   readButton: {
     padding: 10,
     backgroundColor: "lightblue",

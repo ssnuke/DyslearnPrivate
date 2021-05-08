@@ -27,17 +27,17 @@ const Home = ({ navigation }) => {
         </Button>
         <Button
           mode="contained"
+          onPress={() => navigation.navigate("Test")}
+          style={styles.button}
+        >
+          Test
+        </Button>
+        <Button
+          mode="contained"
           onPress={() => navigation.navigate("Reader")}
           style={styles.button}
         >
           Reader
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => navigation.navigate("Practice")}
-          style={styles.button}
-        >
-          Practice
         </Button>
         <Button
           mode="contained"

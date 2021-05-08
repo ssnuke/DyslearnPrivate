@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,31 +6,79 @@ import {
   TextInput,
   FlatList,
   SafeAreaView,
+  Alert,
 } from "react-native";
-import firebase from '../firebase/firebase';
 import * as Speech from "expo-speech";
+import { API, graphqlOperation } from "aws-amplify";
+import { createTodo, updateTodo, deleteTodo } from "../src/graphql/mutations";
+import * as queries from "../src/graphql/queries";
+
 import Card from "../components/Card";
 
 const Practice = (props) => {
   const [textInput, setTextInput] = useState("");
   const [data, setNewData] = useState([]);
 
+  useEffect(() => {
+    (async () => {
+      const cloudData = await API.graphql({ query: queries.listTodos });
+      let newData = cloudData.data.listTodos.items;
+      // console.log(newData);
+      newData.map((mydata) =>
+        setNewData((prevData) => [
+          ...prevData,
+          { id: mydata.id, value: mydata.name, image: mydata.image },
+        ])
+      );
+    })();
+  }, []);
+
   const changeText = (input) => {
     setTextInput(input);
   };
 
-  const onAddTask = () => {
-    setNewData((prevData) => [
-      ...prevData,
-      { id: Math.random().toString(), value: textInput },
-    ]);
+  //Add Task
+  const onAddTask = async () => {
+    if (textInput === " ") {
+      Alert.alert("Text cannot be empty!");
+    }
+    const newCard = { name: textInput, image: null };
+    await API.graphql(graphqlOperation(createTodo, { input: newCard }));
+
+    setNewData((prevData) => [...prevData, { value: textInput }]);
     setTextInput("");
-    console.log(data);
   };
 
+  //Speak word
   const speakWord = (value) => {
     Speech.speak(value, { rate: 0.5 });
   };
+
+  const onAddImage = async (imageName,text) => {
+    // console.log(" Image is :"+imageName)
+    const updatedCard = {name: text , image: imageName }
+    await API.graphql(
+      graphqlOperation(updateTodo, { input: updatedCard })
+    );
+  };
+
+  /*Complete Deleting object from db */
+  // useEffect(() => {
+  //   async () => {
+  //     const cloudData = await API.graphql({ query: queries.listTodos });
+  //     let updatedData = cloudData.data.listTodos.items;
+  //     updatedData.map((mydata) =>
+  //       setNewData((prevData) => [...prevData, mydata])
+  //     );
+  //   };
+  // }, [deleteData]);
+
+  // //Delete Todo
+  // const deleteData = async (id) => {
+  //   API.graphql(graphqlOperation(deleteTodo, { input: { id: id } }));
+  //   let updatedData = data.filter((item) => item.id !== id);
+  //   setNewData(updatedData);
+  // };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -51,7 +99,9 @@ const Practice = (props) => {
           renderItem={(itemData) => (
             <Card
               text={itemData.item.value}
+              cloudImage={itemData.item.image}
               onSelect={() => speakWord(itemData.item.value)}
+              onImageAdd={onAddImage}
             />
           )}
         />

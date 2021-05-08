@@ -3,12 +3,16 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import AppNavigator from "./Navigation/AppNavigator";
-import Amplify, { Auth } from "aws-amplify";
-import config from  './src/aws-exports';
-import awsconfig from './src/aws-exports';
+import Amplify, { Auth, API, graphqlOperation, Storage } from "aws-amplify";
+import config from "./src/aws-exports";
+import awsconfig from "./src/aws-exports";
 import { withAuthenticator } from "aws-amplify-react-native";
+import Predictions, {
+  AmazonAIPredictionsProvider,
+} from "@aws-amplify/predictions";
 Amplify.configure(config);
 Amplify.configure(awsconfig);
+Amplify.addPluggable(new AmazonAIPredictionsProvider());
 
 function App() {
   return (

@@ -6,6 +6,7 @@ import Home from "../screens/Home";
 import Practice from "../screens/Practice";
 import Reader from "../screens/Reader";
 import CompleteSentence from "../screens/CompleteSentence";
+import Test from "../screens/TestScreen";
 import { Button } from "react-native";
 
 const AppNavigator = (props) => {
@@ -31,6 +32,7 @@ const AppNavigator = (props) => {
         }}
       />
       <Stack.Screen name="Practice" component={Practice} />
+      <Stack.Screen name="Test" component={Test} />
       <Stack.Screen name="Reader" component={Reader} />
       <Stack.Screen name="CompleteSentence" component={CompleteSentence} />
     </Stack.Navigator>

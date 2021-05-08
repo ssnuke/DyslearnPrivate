@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "dyslearn",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authdyslearne3a99899",
+      "Outputs.UserPoolId"
+    ]
+  }
+}
