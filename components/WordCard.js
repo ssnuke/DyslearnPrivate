@@ -10,7 +10,7 @@ const WordCard = (props) => {
   const [myAnswer, setMyAnswer] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [rightAnswer, setRightAnswer] = useState(false);
-  const [disable,setDisable] = useState(false);
+  const [disable, setDisable] = useState(false);
 
   var res = itemData.jumbled.split(" ");
   var correctAnswer = itemData.correct.split(" ");
@@ -87,7 +87,7 @@ const WordCard = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.wordContainer}>
-        {res.map((items,index) => (
+        {res.map((items, index) => (
           <Word
             text={items}
             onWordSelect={updateInput}
@@ -101,7 +101,7 @@ const WordCard = (props) => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={checkAnswer}>{Icon}</TouchableOpacity>
           <TouchableOpacity onPress={resetAnswer}>
-            <Ionicons name="refresh-circle-sharp" size={24} color="white" />
+            <Ionicons name="refresh-circle-sharp" size={24} color="grey" />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={popElement}>
@@ -118,27 +118,29 @@ export default WordCard;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "grey",
     padding: 5,
     marginHorizontal: 5,
     marginVertical: 10,
     minHeight: 300,
-    borderRadius: 6,
+    borderRadius: 10,
+    backgroundColor: "#a6b9bd",
   },
   wordContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-evenly",
   },
   answerContainer: {
-    backgroundColor: "#888",
-    borderRadius: 5,
+    flex:1,
+    borderRadius: 10,
     elevation: 10,
-    shadowColor: "black",
-    marginTop: 50,
+    marginTop: 100,
     padding: 20,
+    shadowColor: "black",
+    backgroundColor: "white",
+    justifyContent: 'flex-end',
   },
   answer: {
-    color: "white",
+    color: "black",
     fontSize: 18,
     fontWeight: "bold",
   },

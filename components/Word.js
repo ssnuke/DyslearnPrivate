@@ -23,15 +23,18 @@ export default Word;
 
 const styles = StyleSheet.create({
   wordContainer: {
-    backgroundColor: "skyblue",
+    margin: 2,
+    height: 50,
+    minWidth: 50,
+    borderRadius: 4,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 4,
-    margin: 4,
-    height: 50,
-    width: 50,
+    backgroundColor: "#323740",
   },
   text: {
     textAlign: "center",
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: 'white',
   },
 });

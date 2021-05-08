@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import {
   View,
-  Text,
   StyleSheet,
-  TouchableOpacity,
   BackHandler,
+  ImageBackground,
+  TouchableOpacity,
+  Text,
 } from "react-native";
-import { Button } from "react-native-paper";
 
 const Home = ({ navigation }) => {
+  const bgImage = require("../assets/images/BackGroundImage.png");
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", function () {
       return true;
@@ -17,47 +19,34 @@ const Home = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View styles={styles.buttonContainer}>
-        <Button
-          mode="contained"
-          onPress={() => navigation.navigate("Practice")}
-          style={styles.button}
-        >
-          Practice
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => navigation.navigate("Test")}
-          style={styles.button}
-        >
-          Test
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => navigation.navigate("Reader")}
-          style={styles.button}
-        >
-          Reader
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => navigation.navigate("CompleteSentence")}
-          style={styles.button}
-        >
-          CompleteSentence
-        </Button>
-        {/* <View style={styles.loginContainer}>
-          <Button style={styles.login} color="white" onPress={() => navigation.navigate("SignUp")}>
-            Login
-          </Button>
-          <Button style={styles.logout} color="white">
-            Logout
-          </Button>
-        </View> */}
-        {/* <View style={styles.exitContainer}>
-          <Button style={styles.exitButton} color="white">EXIT</Button>
-        </View> */}
-      </View>
+      <ImageBackground source={bgImage} style={styles.image}>
+        <View style={styles.touchableContainer}>
+          <TouchableOpacity
+            style={styles.touchable}
+            onPress={() => navigation.navigate("Practice")}
+          >
+            <Text style={styles.text}> Practice</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.touchableContainer}>
+          <TouchableOpacity
+            style={styles.touchable}
+            onPress={() => navigation.navigate("Test")}
+          >
+            <Text style={styles.text}> Test</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.touchableContainer}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Complete Sentence")}
+            style={styles.touchable}
+          >
+            <Text style={styles.text}>Complete Sentence</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     </View>
   );
 };
@@ -69,28 +58,27 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "grey",
   },
-  buttonContainer: {
-    backgroundColor: "blue",
+  image: {
+    resizeMode: "cover",
+    width: "100%",
+    height: "100%",
   },
-  button: {
-    marginTop: 65,
-    marginHorizontal: 30,
+  touchableContainer: {
+    marginTop: 70,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  loginContainer: {
-    marginTop: 90,
-    flexDirection: "row",
-    justifyContent: "space-around",
+  touchable: {
+    height: 50,
+    width: 300,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#242433",
+    borderRadius: 10,
   },
-  login: {
-    backgroundColor: "#83d15e",
+  text: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
   },
-  logout: {
-    backgroundColor: "#ed6868",
-  },
-  exitContainer: {
-    marginTop: 50,
-    backgroundColor: "#ff0a0a",
-    marginHorizontal: 120,
-  },
-  exitButton: {},
 });

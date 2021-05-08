@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
-  Button,
-  TextInput,
   FlatList,
   SafeAreaView,
   Alert,
-  Modal,
+  ImageBackground,
+  TouchableOpacity,
+  Text,
 } from "react-native";
 import * as Speech from "expo-speech";
 import { API, graphqlOperation } from "aws-amplify";
@@ -20,6 +20,7 @@ import Input from "../components/Input";
 const Practice = (props) => {
   const [data, setNewData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const bgImage = require("../assets/images/BackGroundImage.png");
 
   useEffect(() => {
     (async () => {
@@ -50,24 +51,6 @@ const Practice = (props) => {
     await API.graphql(graphqlOperation(updateTodo, { input: updatedCard }));
   };
 
-  /*Complete Deleting object from db */
-  // useEffect(() => {
-  //   async () => {
-  //     const cloudData = await API.graphql({ query: queries.listTodos });
-  //     let updatedData = cloudData.data.listTodos.items;
-  //     updatedData.map((mydata) =>
-  //       setNewData((prevData) => [...prevData, mydata])
-  //     );
-  //   };
-  // }, [deleteData]);
-
-  // //Delete Todo
-  // const deleteData = async (id) => {
-  //   API.graphql(graphqlOperation(deleteTodo, { input: { id: id } }));
-  //   let updatedData = data.filter((item) => item.id !== id);
-  //   setNewData(updatedData);
-  // };
-
   //Add Task
   const onAddTask = async (text, image) => {
     if (text === " ") {
@@ -81,31 +64,39 @@ const Practice = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.inputContainer}>
-        <View style={styles.textInputContainer}>
-          <Button
-            style={styles.button}
-            title="Add a new Card"
-            onPress={() => setModalVisible(true)}
-          />
-          <Input visible={modalVisible} onClose={closeModal} />
-        </View>
+      <ImageBackground source={bgImage} style={styles.image}>
+        <View style={styles.inputContainer}>
+          <View style={styles.textInputContainer}>
+            <View style={styles.touchableContainer}>
+              <TouchableOpacity style={styles.touchable} onPress={() => setModalVisible(true)}>
+                <Text style={styles.text}>ADD A NEW CARD</Text>
+              </TouchableOpacity>
+            </View>
 
-        {modalVisible ? null : (
-          <FlatList
-            data={data}
-            style={styles.list}
-            renderItem={(itemData) => (
-              <Card
-                text={itemData.item.value}
-                cloudImage={itemData.item.img}
-                onSelect={() => speakWord(itemData.item.value)}
-                onImageAdd={onAddImage}
-              />
-            )}
-          />
-        )}
-      </View>
+            {/* <Button
+              style={styles.button}
+              title="Add a new Card"
+              onPress={() => setModalVisible(true)}
+            /> */}
+            <Input visible={modalVisible} onClose={closeModal} />
+          </View>
+
+          {modalVisible ? null : (
+            <FlatList
+              data={data}
+              style={styles.list}
+              renderItem={(itemData) => (
+                <Card
+                  text={itemData.item.value}
+                  cloudImage={itemData.item.img}
+                  onSelect={() => speakWord(itemData.item.value)}
+                  onImageAdd={onAddImage}
+                />
+              )}
+            />
+          )}
+        </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 };
@@ -115,6 +106,13 @@ export default Practice;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
   },
   inputContainer: {
     flex: 1,
@@ -132,6 +130,22 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "30%",
+  },
+  touchableContainer: {
+    // justifyContent: "center",
+    // alignItems: "center",
+  },
+  touchable: {
+    height: 50,
+    width: 120,
+    backgroundColor: "#242433",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+  },
+  text:{
+    fontWeight:'bold',
+    color: 'white',
   },
   list: {
     marginTop: 20,
