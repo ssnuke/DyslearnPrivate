@@ -21,8 +21,6 @@
     },
     "android": {
       "adaptiveIcon": {
-        "package": "com.dys.dyslearn",
-        "versionCode": 1,
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
