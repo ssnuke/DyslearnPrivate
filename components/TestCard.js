@@ -20,19 +20,21 @@ const TestCard = (props) => {
   };
 
   return (
-    <View style={styles.card}>
-      <View style={styles.info}>
-        <Text>{word}</Text>
-        <Image />
-        <Button title="Speech" onPress={() => speakWord(word)} />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Type your answer"
-          onChangeText={setAnswer}
-          value={answer}
-        />
-        <Button title="Submit" onPress={checkAnswer} />
+    <View style={styles.listItemContainer}>
+      <View style={styles.card}>
+        <View style={styles.info}>
+          {/* <Text>{word}</Text> */}
+          <Image source={{ uri: wordImage }} style={styles.image} />
+          <Button title="Speech" onPress={() => speakWord(word)} />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="Type your answer"
+            onChangeText={setAnswer}
+            value={answer}
+          />
+          <Button title="Submit" onPress={checkAnswer} />
+        </View>
       </View>
     </View>
   );
@@ -41,18 +43,30 @@ const TestCard = (props) => {
 export default TestCard;
 
 const styles = StyleSheet.create({
+  listItemContainer: {
+    width: "100%",
+    // height:'100%',
+  },
   card: {
-    marginTop: 20,
+    backgroundColor: "#ccc",
+    borderRadius: 5,
     marginHorizontal: 20,
-    backgroundColor: "#888",
+    marginVertical: 10,
+    height: 200,
+    justifyContent: "space-between",
   },
   info: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "space-around",
   },
   inputContainer: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "space-around",
     marginVertical: 20,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    resizeMode: "cover",
   },
 });

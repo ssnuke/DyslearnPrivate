@@ -14,41 +14,14 @@ import { createTodo, updateTodo, deleteTodo } from "../src/graphql/mutations";
 import * as queries from "../src/graphql/queries";
 
 const Card = (props) => {
-  const { text, onSelect, onDelete, onImageAdd } = props;
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [cloudImage, setCloudImage] = useState("");
-  const [imageName,setImageName] = useState('');
-  
+  const { text, onSelect, onDelete, onImageAdd,cloudImage } = props;
+
 
   useEffect(() => {
     // getImage();
     // console.log(cloudImage);
   });
 
-  let openImagePickerAsync = async () => {
-    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
-    }
-
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
-
-    if (pickerResult.cancelled === true) {
-      return;
-    }
-    setSelectedImage(pickerResult.uri);
-    
-    const imageUri = pickerResult.uri;
-    const response = await fetch(imageUri);
-    let myname = pickerResult.uri.replace(/^.*[\\\/]/, "");
-    const blob = await response.blob();
-    await Storage.put(myname, blob, {
-      contentType: "image/jpeg",
-    });
-    onImageAdd(myname,text);
-  };
 
   // const getImage = async () => {
   //   setCloudImage(
@@ -66,19 +39,9 @@ const Card = (props) => {
           <Button title="Delete" onPress={onDelete} />
         </View>
 
-        {/* <Image  source={{uri: cloudImage}} style={styles.image}/> */}
-        <Image source={{ uri: selectedImage }} style={styles.image} />
+        <Image source={{ uri: cloudImage }} style={styles.image} />
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.readButton}
-            onPress={openImagePickerAsync}
-          >
-            <View style={styles.imageButton}>
-              <Text>ADD Image</Text>
-            </View>
-          </TouchableOpacity>
-
           <TouchableOpacity onPress={onSelect} style={styles.readButton}>
             <View>
               <Text>Speak Aloud</Text>

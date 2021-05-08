@@ -7,6 +7,7 @@ import {
   FlatList,
   SafeAreaView,
   Alert,
+  Modal,
 } from "react-native";
 import * as Speech from "expo-speech";
 import { API, graphqlOperation } from "aws-amplify";
@@ -14,39 +15,29 @@ import { createTodo, updateTodo, deleteTodo } from "../src/graphql/mutations";
 import * as queries from "../src/graphql/queries";
 
 import Card from "../components/Card";
+import Input from "../components/Input";
 
 const Practice = (props) => {
-  const [textInput, setTextInput] = useState("");
   const [data, setNewData] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     (async () => {
       const cloudData = await API.graphql({ query: queries.listTodos });
       let newData = cloudData.data.listTodos.items;
-      // console.log(newData);
       newData.map((mydata) =>
         setNewData((prevData) => [
           ...prevData,
-          { id: mydata.id, value: mydata.name, image: mydata.image },
+          { id: mydata.id, value: mydata.name, img: mydata.image },
         ])
       );
     })();
   }, []);
 
-  const changeText = (input) => {
-    setTextInput(input);
-  };
-
-  //Add Task
-  const onAddTask = async () => {
-    if (textInput === " ") {
-      Alert.alert("Text cannot be empty!");
-    }
-    const newCard = { name: textInput, image: null };
-    await API.graphql(graphqlOperation(createTodo, { input: newCard }));
-
-    setNewData((prevData) => [...prevData, { value: textInput }]);
-    setTextInput("");
+  const closeModal = (text, image) => {
+    onAddTask(text, image);
+    setModalVisible(false);
+    // console.log(text, image);
   };
 
   //Speak word
@@ -54,12 +45,9 @@ const Practice = (props) => {
     Speech.speak(value, { rate: 0.5 });
   };
 
-  const onAddImage = async (imageName,text) => {
-    // console.log(" Image is :"+imageName)
-    const updatedCard = {name: text , image: imageName }
-    await API.graphql(
-      graphqlOperation(updateTodo, { input: updatedCard })
-    );
+  const onAddImage = async (imageName, text) => {
+    const updatedCard = { name: text, image: imageName };
+    await API.graphql(graphqlOperation(updateTodo, { input: updatedCard }));
   };
 
   /*Complete Deleting object from db */
@@ -80,31 +68,43 @@ const Practice = (props) => {
   //   setNewData(updatedData);
   // };
 
+  //Add Task
+  const onAddTask = async (text, image) => {
+    if (text === " ") {
+      Alert.alert("Text cannot be empty!");
+    }
+    const newCard = { name: text, image: image };
+    await API.graphql(graphqlOperation(createTodo, { input: newCard }));
+    setNewData((prevData) => [...prevData, { value: text, img: image }]);
+    console.log(data);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.inputContainer}>
         <View style={styles.textInputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="ADD A WORD"
-            onChangeText={changeText}
-            value={textInput}
+          <Button
+            style={styles.button}
+            title="Add a new Card"
+            onPress={() => setModalVisible(true)}
           />
-          <Button style={styles.button} title="ADD" onPress={onAddTask} />
+          <Input visible={modalVisible} onClose={closeModal} />
         </View>
 
-        <FlatList
-          data={data}
-          style={styles.list}
-          renderItem={(itemData) => (
-            <Card
-              text={itemData.item.value}
-              cloudImage={itemData.item.image}
-              onSelect={() => speakWord(itemData.item.value)}
-              onImageAdd={onAddImage}
-            />
-          )}
-        />
+        {modalVisible ? null : (
+          <FlatList
+            data={data}
+            style={styles.list}
+            renderItem={(itemData) => (
+              <Card
+                text={itemData.item.value}
+                cloudImage={itemData.item.img}
+                onSelect={() => speakWord(itemData.item.value)}
+                onImageAdd={onAddImage}
+              />
+            )}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
